@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 질문하기
+    url: https://github.com/YOUR_USERNAME/js-flow/discussions
+    about: 사용법이나 일반적인 질문은 Discussions에서 물어보세요.
