@@ -1,6 +1,7 @@
 import React from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
+import StoryBook from "@/storybook";
 
 function App() {
   const [value, setValue] = React.useState("console.log('hello world!');");
@@ -11,13 +12,16 @@ function App() {
   }, []);
 
   return (
-    <CodeMirror
-      value={value}
-      width="400px"
-      height="200px"
-      extensions={[javascript({ jsx: true })]}
-      onChange={onChange}
-    />
+    <>
+      <CodeMirror
+        value={value}
+        width="400px"
+        height="200px"
+        extensions={[javascript({ jsx: true })]}
+        onChange={onChange}
+      />
+      <StoryBook />
+    </>
   );
 }
 export default App;
