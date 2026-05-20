@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
-const buttonVariants = cva(
+const buttonStyle = cva(
   "inline-flex items-center justify-center font-semibold transition-all duration-150 ease-in-out select-none active:scale-95 disabled:scale-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer",
   {
     variants: {
@@ -26,13 +26,13 @@ const buttonVariants = cva(
 );
 
 interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+  extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonStyle> {
   children: ReactNode;
 }
 
 export default function Button({ variant, shape, children, className, ...props }: ButtonProps) {
   return (
-    <button className={twMerge(buttonVariants({ variant, shape }), className)} {...props}>
+    <button className={twMerge(buttonStyle({ variant, shape }), className)} {...props}>
       {children}
     </button>
   );

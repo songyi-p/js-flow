@@ -1,12 +1,16 @@
+import BadgeStory from "./BadgeStory";
 import ButtonStory from "./ButtonStory";
+import LayoutStory from "./LayoutStory";
 
 export default function StoryBook() {
   return (
     <>
-      <article className="max-w-2xl rounded-2xl border-[1.5px] border-gray-500 p-6">
-        <h2 className="mb-4 font-semibold">Button 컴포넌트</h2>
+      <LayoutStory name="Button">
         <ButtonStory />
-      </article>
+      </LayoutStory>
+      <LayoutStory name="Badge">
+        <BadgeStory />
+      </LayoutStory>
     </>
   );
 }

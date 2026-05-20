@@ -20,8 +20,8 @@
   --color-danger-hover: #fee2e2;
 
   --color-stack: #ef4444; /* 콜스택 메인 */
-  --color-micro: #a855f7; /* 마이크로큐 메인 */
-  --color-macro: #f97316; /* 매크로큐 메인 */
+  --color-micro: #3182f6; /* 마이크로큐 메인 */
+  --color-macro: #8b5cf6; /* 매크로큐 메인 */
 
   --color-gray-50: #f9fafb; /* 전체 배경색 */
   --color-gray-100: #f2f4f6; /* 회색 백그라운드 */
