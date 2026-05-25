@@ -1,54 +1,7 @@
+import { covertNodeToTask } from "@/utils/lib";
+import type { FuncMap, ParseResult, Task } from "@/utils/type";
 import * as acorn from "acorn";
 import * as walk from "acorn-walk";
-
-export interface Task {
-  id: string;
-  task: string;
-  type: "stack" | "micro" | "macro";
-}
-
-export interface FuncMap {
-  [funcName: string]: {
-    tasks: Task[];
-  };
-}
-
-export interface ParseResult {
-  mainScript: Task[];
-  funcMap: FuncMap;
-}
-
-function getName(callee: any): string {
-  if (!callee) return "anonymous";
-  if (callee.type === "Identifier") return callee.name;
-  if (callee.type === "MemberExpression") {
-    if (callee.object.type === "CallExpression") {
-      return `${getName(callee.object.callee)}().${callee.property?.name || "unknown"}`;
-    }
-    return `${callee.object?.name || "unknown"}.${callee.property?.name || "unknown"}`;
-  }
-  return "anonymous";
-}
-
-function covertNodeToTask(node: any): Task {
-  const callee = node.callee;
-  const fullName = getName(callee);
-  const uuid = crypto.randomUUID();
-
-  if (fullName.startsWith("setTimeout") || fullName.startsWith("setInterval")) {
-    return { id: uuid, task: `${fullName}(cb)`, type: "macro" };
-  }
-  if (
-    fullName.startsWith("Promise") ||
-    fullName.includes(".then") ||
-    fullName.includes(".catch") ||
-    fullName.includes(".finally") ||
-    fullName === "queueMicrotask"
-  ) {
-    return { id: uuid, task: `${fullName}(cb)`, type: "micro" };
-  }
-  return { id: uuid, task: `${fullName}()`, type: "stack" };
-}
 
 export function parseCode(code: string): ParseResult {
   const mainScript: Task[] = [];
