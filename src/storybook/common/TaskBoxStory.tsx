@@ -26,17 +26,14 @@ export default function TaskBoxStory() {
   const [stacks, setStacks] = useState(initialStack);
   const [queues, setQueues] = useState(initialQueue);
 
-  // 🔴 스택 POP
   const popStack = () => {
     setStacks((prev) => prev.slice(1));
   };
 
-  // 🔵 큐 SHIFT
   const shiftQueue = () => {
     setQueues((prev) => prev.slice(1));
   };
 
-  // 🔄 리셋
   const resetAll = () => {
     setStacks(initialStack);
     setQueues(initialQueue);
