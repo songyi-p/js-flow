@@ -14,3 +14,5 @@ export interface ParseResult {
   mainScript: Task[];
   funcMap: FuncMap;
 }
+
+export type ScopeEnv = Record<string, string>;
