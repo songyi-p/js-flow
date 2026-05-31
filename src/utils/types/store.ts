@@ -8,6 +8,11 @@ export interface ConsoleEntry {
   kind: "log" | "warn" | "error" | "system";
 }
 
+export interface FuncContext {
+  tasks: Task[];
+  index: number;
+}
+
 export interface FlowState {
   callStack: Task[];
   macroQueue: Task[];
@@ -19,9 +24,11 @@ export interface FlowState {
   scopeChain: ScopeEnv[];
   lineIndex: number;
   globalScripts: Task[];
+  funcCallStack: FuncContext[];
 }
 
 export interface FlowActions {
+  updateStore: (fn: (draft: FlowState & FlowActions) => void) => void;
   setCallStack: (tasks: Task[]) => void;
   pushToCallStack: (task: Task) => void;
   setMacroQueue: (tasks: Task[]) => void;
