@@ -4,7 +4,6 @@ import { Play, RotateCcw, AlertTriangle, Atom } from "lucide-react";
 export default function ButtonStory() {
   return (
     <>
-      {/* 1. 사각형 텍스트 버튼 (shape="square") */}
       <section className="mb-4 space-y-4 rounded-2xl border border-gray-200 bg-gray-900 p-6 shadow-sm">
         <h3 className="font-medium">1. 사각형 텍스트 타입</h3>
         <div className="flex flex-wrap items-center gap-3">
@@ -27,7 +26,6 @@ export default function ButtonStory() {
         </div>
       </section>
 
-      {/* 2. 원형 아이콘 버튼 세트 (shape="round") */}
       <section className="space-y-4 rounded-2xl border border-gray-200 bg-gray-900 p-6 shadow-sm">
         <h3 className="font-medium">2. 원형 아이콘 타입</h3>
         <div className="flex flex-wrap items-center gap-4">

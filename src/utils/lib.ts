@@ -1,4 +1,4 @@
-import type { Task } from "./types/parser";
+import type { ScopeEnv, Task } from "./types/parser";
 
 const getCallExprName = (callee: any): string => {
   if (!callee) return "anonymous";
@@ -9,8 +9,7 @@ const getCallExprName = (callee: any): string => {
 
     case "MemberExpression": {
       const prop = callee.property?.name ?? callee.property?.value ?? "unknown";
-      const obj = getCallExprName(callee.object);
-      return `${obj}.${prop}`;
+      return `${getCallExprName(callee.object)}.${prop}`;
     }
 
     case "CallExpression":
@@ -24,7 +23,6 @@ const getCallExprName = (callee: any): string => {
 export const createTask = (node: any, source: string): Task => {
   const uuid = crypto.randomUUID();
   const callName = getCallExprName(node.callee);
-
   const rawExpr: string = source.slice(node.start, node.end);
 
   if (callName.startsWith("setTimeout") || callName.startsWith("setInterval")) {
@@ -99,4 +97,68 @@ export const parseCallbackFunc = (node: any, code: string): Task[] => {
     });
   }
   return tasks;
+};
+
+export const evalExpr = (expr: string, scopeChain: ScopeEnv[]): string => {
+  try {
+    const scope = Object.assign({}, ...scopeChain);
+    const keys = Object.keys(scope);
+    const vals = Object.values(scope);
+    const result = new Function(...keys, `return (${expr})`)(...vals);
+    return String(result);
+  } catch {
+    return expr;
+  }
+};
+
+export const extractConsoleArg = (taskStr: string): string | null => {
+  const prefix = "console.log(";
+  if (!taskStr.startsWith(prefix)) return null;
+
+  let depth = 0;
+  let argStart = prefix.length;
+  let argEnd = -1;
+
+  for (let i = prefix.length - 1; i < taskStr.length; i++) {
+    if (taskStr[i] === "(") depth++;
+    else if (taskStr[i] === ")") {
+      depth--;
+      if (depth === 0) {
+        argEnd = i;
+        break;
+      }
+    }
+  }
+
+  if (argEnd === -1) return null;
+  return taskStr.slice(argStart, argEnd).trim();
+};
+
+export const extractFuncName = (taskStr: string): string => {
+  const idx = taskStr.indexOf("(");
+  return idx === -1 ? taskStr.trim() : taskStr.slice(0, idx).trim();
+};
+
+export const extractArgs = (taskStr: string): string[] => {
+  const start = taskStr.indexOf("(");
+  const end = taskStr.lastIndexOf(")");
+  if (start === -1 || end === -1) return [];
+
+  const inner = taskStr.slice(start + 1, end);
+  const args: string[] = [];
+  let depth = 0;
+  let cur = "";
+
+  for (const ch of inner) {
+    if (ch === "(") depth++;
+    else if (ch === ")") depth--;
+    else if (ch === "," && depth === 0) {
+      args.push(cur.trim());
+      cur = "";
+      continue;
+    }
+    cur += ch;
+  }
+  if (cur.trim()) args.push(cur.trim());
+  return args;
 };

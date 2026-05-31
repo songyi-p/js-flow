@@ -13,12 +13,16 @@ const INITIAL_STATE: FlowState = {
   scopeChain: [{}],
   lineIndex: 0,
   globalScripts: [],
+  funcCallStack: [],
 };
 
 export const useFlowStore = create<FlowState & FlowActions>()(
   immer((set) => ({
     ...INITIAL_STATE,
-
+    updateStore: (fn) =>
+      set((s) => {
+        fn(s);
+      }),
     setCallStack: (tasks) =>
       set((s) => {
         s.callStack = tasks;
