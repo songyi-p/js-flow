@@ -1,3 +1,4 @@
+import type { FlowPhase } from "@/utils/types/store";
 import { useState, useCallback } from "react";
 import { Button, DashboardCard } from "../common";
 import { javascript } from "@codemirror/lang-javascript";
@@ -5,7 +6,7 @@ import CodeMirror from "@uiw/react-codemirror";
 
 interface CodeEditorProps {
   initialCode: string;
-  phase: string;
+  phase: FlowPhase;
   onRun: (code: string) => void;
 }
 
@@ -16,6 +17,8 @@ export default function CodeEditor({ initialCode, phase, onRun }: CodeEditorProp
     setUserCode(value);
   }, []);
 
+  const isDisabled = phase === "ready" || phase === "running";
+
   return (
     <DashboardCard title="코드 편집기" isRunning={phase === "running"}>
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white p-2">
@@ -25,9 +28,15 @@ export default function CodeEditor({ initialCode, phase, onRun }: CodeEditorProp
           extensions={[javascript({ jsx: true })]}
           onChange={handleCodeChange}
           theme="light"
+          readOnly={isDisabled}
         />
       </div>
-      <Button variant="primary" className="mt-4 w-full py-3" onClick={() => onRun(userCode)}>
+      <Button
+        variant="primary"
+        className="mt-4 w-full py-3"
+        onClick={() => onRun(userCode)}
+        disabled={isDisabled}
+      >
         ⚡ 스크립트 코드 실행
       </Button>
     </DashboardCard>
