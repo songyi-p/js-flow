@@ -33,7 +33,12 @@ export default function DashboardCard({
 }: DashboardCardProps) {
   return (
     <section
-      className={twMerge(dashboardStyle({ variant }), !isRunning && "border-gray-200", className)}
+      className={twMerge(
+        "h-full",
+        dashboardStyle({ variant }),
+        !isRunning && "border-gray-200",
+        className,
+      )}
     >
       <div className="mb-4 flex items-center justify-between select-none">
         <h3 className="flex items-center gap-1.5 font-semibold">{title}</h3>

@@ -3,27 +3,52 @@ import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
 
 const taskBoxStyle = cva(
-  "relative flex bg-white border border-gray-200 rounded-xl p-3 transition-all duration-200 select-none shadow-sm",
+  "relative flex bg-white border border-gray-200 rounded-xl p-3 transition-all duration-200 select-none shadow-sm text-gray-500 border-l-4",
   {
     variants: {
       variant: {
-        stack: "w-full min-h-8 text-gray-600",
-        micro: "w-32 h-32 items-center text-micro",
-        macro: "w-32 h-32 items-center text-macro",
+        stack: "w-full min-h-8",
+        micro: "w-32 h-32",
+        macro: "w-32 h-32",
+      },
+      active: {
+        true: "border-y-gray-200 border-r-gray-200",
       },
     },
+    compoundVariants: [
+      {
+        variant: "stack",
+        active: true,
+        class: "border-l-stack bg-linear-to-r from-stack/20 to-transparent",
+      },
+      {
+        variant: "micro",
+        active: true,
+        class: "border-l-micro bg-linear-to-b from-micro/20 to-transparent",
+      },
+      {
+        variant: "macro",
+        active: true,
+        class: "border-l-macro bg-linear-to-b from-macro/20 to-transparent",
+      },
+    ],
   },
 );
 
-interface TaskBoxProps extends Required<VariantProps<typeof taskBoxStyle>> {
+const arrowColor = {
+  stack: "text-stack",
+  micro: "text-micro",
+  macro: "text-macro",
+} as const;
+
+interface TaskBoxProps {
+  variant: NonNullable<VariantProps<typeof taskBoxStyle>["variant"]>;
   task: string;
-  isFirst?: boolean;
+  isActive?: boolean;
   className?: string;
 }
 
-export default function TaskBox({ variant, task, isFirst = false, className }: TaskBoxProps) {
-  const isStack = variant === "stack";
-
+export default function TaskBox({ variant, task, isActive = false, className }: TaskBoxProps) {
   return (
     <motion.div
       variants={{
@@ -31,8 +56,8 @@ export default function TaskBox({ variant, task, isFirst = false, className }: T
         animate: { opacity: 1, transition: { type: "decay", stiffness: 200, damping: 20 } },
         exit: {
           opacity: 0,
-          y: isStack ? -40 : 0,
-          x: isStack ? 0 : -40,
+          y: variant === "stack" ? -40 : 0,
+          x: variant === "stack" ? 0 : -40,
           transition: { duration: 0.15, ease: "linear" },
         },
       }}
@@ -40,27 +65,23 @@ export default function TaskBox({ variant, task, isFirst = false, className }: T
       animate="animate"
       exit="exit"
       layout
-      className={twMerge(taskBoxStyle({ variant }), className)}
+      className={twMerge(taskBoxStyle({ variant, active: isActive }), className)}
     >
-      <div
-        className={twMerge(
-          "max-h-full w-full scrollbar-none overflow-y-auto py-1 text-sm leading-snug font-medium break-all",
-          isFirst ? (isStack ? "pr-6" : "pr-4") : "",
+      <div className="flex h-full min-h-0 w-full items-center gap-2">
+        {isActive && (
+          <span className={twMerge("mt-0.5 shrink-0 animate-pulse text-sm", arrowColor[variant])}>
+            ▶
+          </span>
         )}
-      >
-        {task}
-      </div>
-
-      {isFirst && (
-        <span
+        <div
           className={twMerge(
-            "absolute z-10 text-sm font-bold",
-            isStack ? "text-stack top-4 right-4" : "top-3 right-2.5",
+            "max-h-full w-full scrollbar-none overflow-y-auto py-0.5 text-sm font-medium break-all select-text",
+            isActive && "font-semibold",
           )}
         >
-          ★
-        </span>
-      )}
+          {task}
+        </div>
+      </div>
     </motion.div>
   );
 }
