@@ -14,7 +14,7 @@ const initialStack = [
 
 const initialQueue = [
   { id: "q1", task: "setTimeout() 콜백함수A", type: "macro" as const },
-  { id: "q2", task: "Promise 콜백함수B", type: "micro" as const },
+  { id: "q2", task: "Promise 콜백함수B", type: "macro" as const },
   {
     id: "q3",
     task: "긴 글자 테스트용 console.log() console.log() console.log() console.log() console.log() console.log()",
@@ -58,7 +58,7 @@ export default function TaskBoxStory() {
           <h4 className="font-bold text-gray-400">콜스택 (CALL STACK)</h4>
           <AnimatePresence mode="popLayout">
             {stacks.map((item, index) => (
-              <TaskBox key={item.id} task={item.task} isFirst={index === 0} variant="stack" />
+              <TaskBox key={item.id} task={item.task} isActive={index === 0} variant="stack" />
             ))}
           </AnimatePresence>
         </div>
@@ -68,7 +68,12 @@ export default function TaskBoxStory() {
           <div className="flex scrollbar-none gap-4 overflow-x-auto py-2">
             <AnimatePresence mode="popLayout">
               {queues.map((item, index) => (
-                <TaskBox key={item.id} task={item.task} isFirst={index === 0} variant={item.type} />
+                <TaskBox
+                  key={item.id}
+                  task={item.task}
+                  isActive={index === 0}
+                  variant={item.type}
+                />
               ))}
             </AnimatePresence>
           </div>
