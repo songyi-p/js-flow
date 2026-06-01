@@ -15,12 +15,12 @@ export default function CallStack({ tasks, activeTaskId }: CallStackProps) {
 
   return (
     <DashboardCard
-      title="🧱 콜스택 | Call-Stack"
+      title="📦 콜스택 | Call-Stack"
       variant="stack"
       isRunning={isRunning}
       headerRight={<Badge variant="stack" isShow={isRunning} name="실행 중" />}
     >
-      <div className="flex h-full scrollbar-none flex-col-reverse gap-2.5 overflow-y-auto">
+      <div className="flex h-full scrollbar-none flex-col-reverse gap-2.5 overflow-y-auto pb-1">
         <AnimatePresence mode="popLayout">
           {visible.map((task) => (
             <TaskBox
