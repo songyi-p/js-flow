@@ -1,6 +1,6 @@
-import { cva } from "class-variance-authority";
 import type { ConsoleEntry } from "@/utils/types/store";
-import DashboardCard from "../common/DashboardCard";
+import { cva } from "class-variance-authority";
+import { DashboardCard } from "../common";
 
 const logLineStyle = cva("font-mono text-sm leading-relaxed", {
   variants: {

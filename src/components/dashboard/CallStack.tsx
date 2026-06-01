@@ -1,8 +1,6 @@
-import { AnimatePresence } from "framer-motion";
 import type { Task } from "@/utils/types/parser";
-import DashboardCard from "../common/DashboardCard";
-import TaskBox from "../common/TaskBox";
-import Badge from "../common/Badge";
+import { Badge, TaskBox, DashboardCard } from "../common";
+import { AnimatePresence } from "framer-motion";
 
 interface CallStackProps {
   tasks: Task[];

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import Button from "@/components/common/Button";
+import Button from "./Button";
 
 interface LayoutProps {
   onStep: () => void;
