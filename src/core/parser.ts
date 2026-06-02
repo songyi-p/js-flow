@@ -1,6 +1,11 @@
 import * as acorn from "acorn";
 import * as walk from "acorn-walk";
-import { createTask, findClosestFunc, getDeclaredFuncName, parseCallbackFunc } from "@/utils/lib";
+import {
+  createTask,
+  findClosestFunc,
+  getDeclaredFuncName,
+  parseCallbackFunc,
+} from "./parser.helpers";
 import type { FuncMap, ParseResult, Task } from "@/utils/types/parser";
 
 export function parser(code: string): ParseResult {

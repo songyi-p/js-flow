@@ -1,9 +1,8 @@
+import type { ScopeEnv } from "@/utils/types/parser";
 import { useCallback } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { parser } from "@/core/parser";
 import { useFlowStore } from "@/store/useFlowStore";
-import type { ScopeEnv } from "@/utils/types/parser";
-import { evalExpr, extractFuncName } from "@/utils/lib";
 import * as H from "./useCallStack.helpers";
 
 export function useCallStack() {
@@ -38,7 +37,7 @@ export function useCallStack() {
         const globalScope: ScopeEnv = {};
         const callableTasks = mainScript.filter((task) => {
           if (task.type === "declaration") {
-            globalScope[task.varName] = evalExpr(task.varValue, [globalScope]);
+            globalScope[task.varName] = H.evalExpr(task.varValue, [globalScope]);
             return false;
           }
           return true;
@@ -67,7 +66,7 @@ export function useCallStack() {
       if (!top) return;
 
       const taskStr = top.task.trim();
-      const funcName = extractFuncName(taskStr);
+      const funcName = H.extractFuncName(taskStr);
 
       if (top.id === "global-anonymous") H.handleGlobalAnonymous(draft);
       else if ((top as any)._isEndMarker) H.handleEndMarker(draft);
