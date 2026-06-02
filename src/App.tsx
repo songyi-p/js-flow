@@ -1,5 +1,5 @@
 import { useCallStack } from "@/hooks/useCallStack";
-import { Layout, DashboardCard } from "@/components/common";
+import { Layout, Dashboard } from "@/components/common";
 import { CallStack, CodeEditor, Terminal } from "@/components/dashboard";
 // import StoryBook from "./storybook";
 
@@ -30,23 +30,23 @@ export default function App() {
             </div>
             {/* TODO : 추후 components/dashboard 폴더 내 컴포넌트화 예정 */}
             <div className="col-span-3">
-              <DashboardCard title="🔄 이벤트 루프 | Event-Loop" isRunning={false}>
+              <Dashboard title="🔄 이벤트 루프 | Event-Loop" isRunning={false}>
                 <div className="flex h-full items-center justify-center text-sm text-gray-400">
                   준비 중
                 </div>
-              </DashboardCard>
+              </Dashboard>
             </div>
             <div className="col-span-4 flex flex-col gap-4">
-              <DashboardCard title="🧬 마이크로 큐 | Micro-Queue" variant="micro" isRunning={false}>
+              <Dashboard title="🧬 마이크로 큐 | Micro-Queue" variant="micro" isRunning={false}>
                 <div className="flex h-full items-center justify-center text-sm text-gray-400">
                   비어 있음
                 </div>
-              </DashboardCard>
-              <DashboardCard title="⏳ 매크로 큐 | Macro-Queue" variant="macro" isRunning={false}>
+              </Dashboard>
+              <Dashboard title="⏳ 매크로 큐 | Macro-Queue" variant="macro" isRunning={false}>
                 <div className="flex h-full items-center justify-center text-sm text-gray-400">
                   비어 있음
                 </div>
-              </DashboardCard>
+              </Dashboard>
             </div>
           </div>
         </div>

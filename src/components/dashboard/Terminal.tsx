@@ -1,6 +1,6 @@
 import type { ConsoleEntry } from "@/utils/types/store";
 import { cva } from "class-variance-authority";
-import { DashboardCard } from "../common";
+import { Dashboard } from "../common";
 
 const logLineStyle = cva("font-mono text-sm leading-relaxed", {
   variants: {
@@ -30,7 +30,7 @@ interface TerminalProps {
 
 export default function Terminal({ logs, onClear }: TerminalProps) {
   return (
-    <DashboardCard
+    <Dashboard
       title="💻 브라우저 콘솔 출력 결과 | Console"
       headerRight={
         <button
@@ -54,6 +54,6 @@ export default function Terminal({ logs, onClear }: TerminalProps) {
           ))
         )}
       </div>
-    </DashboardCard>
+    </Dashboard>
   );
 }

@@ -15,7 +15,7 @@ const dashboardStyle = cva(
   },
 );
 
-interface DashboardCardProps extends VariantProps<typeof dashboardStyle> {
+interface DashboardProps extends VariantProps<typeof dashboardStyle> {
   title: string;
   isRunning?: boolean;
   headerRight?: ReactNode;
@@ -23,14 +23,14 @@ interface DashboardCardProps extends VariantProps<typeof dashboardStyle> {
   children: ReactNode;
 }
 
-export default function DashboardCard({
+export default function Dashboard({
   title,
   isRunning = true,
   headerRight,
   variant,
   children,
   className,
-}: DashboardCardProps) {
+}: DashboardProps) {
   return (
     <section
       className={twMerge(
