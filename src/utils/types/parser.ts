@@ -6,6 +6,7 @@ interface BaseTask {
 interface StackTask extends BaseTask {
   type: "stack" | "micro" | "macro";
   bodyTasks?: Task[];
+  nextChain?: Task[];
 }
 
 interface DeclarationTask extends BaseTask {
