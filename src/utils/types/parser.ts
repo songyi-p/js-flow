@@ -8,13 +8,34 @@ interface StackTask extends BaseTask {
   bodyTasks?: Task[];
 }
 
+export interface ChainStep {
+  bodyTasks: Task[];
+  callbackParams: string[];
+  resolvedValue?: string;
+}
+
+export interface MicroTask extends BaseTask {
+  type: "micro";
+  chain: ChainStep[];
+}
+
 interface DeclarationTask extends BaseTask {
   type: "declaration";
   varName: string;
   varValue: string;
 }
 
-export type Task = StackTask | DeclarationTask;
+export type Task = StackTask | MicroTask | DeclarationTask;
+
+export interface MicroQueueItem {
+  id: string;
+  task: string;
+  type: "micro";
+  bodyTasks: Task[];
+  callbackParams: string[];
+  resolvedValue?: string;
+  nextChain?: MicroQueueItem;
+}
 
 export interface FuncEntry {
   tasks: Task[];

@@ -1,5 +1,5 @@
 import type { Task } from "@/utils/types/parser";
-import { Badge, TaskBox, DashboardCard } from "../common";
+import { Badge, TaskBox, Dashboard } from "../common";
 import { AnimatePresence } from "framer-motion";
 
 interface CallStackProps {
@@ -12,7 +12,7 @@ export default function CallStack({ tasks, activeTaskId }: CallStackProps) {
   const visible = tasks.filter((t) => !(t as any)._isEndMarker);
 
   return (
-    <DashboardCard
+    <Dashboard
       title="📦 콜스택 | Call-Stack"
       variant="stack"
       isRunning={isRunning}
@@ -36,6 +36,6 @@ export default function CallStack({ tasks, activeTaskId }: CallStackProps) {
           </div>
         )}
       </div>
-    </DashboardCard>
+    </Dashboard>
   );
 }

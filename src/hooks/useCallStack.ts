@@ -1,14 +1,15 @@
+import type { ScopeEnv } from "@/utils/types/parser";
 import { useCallback } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { parser } from "@/core/parser";
 import { useFlowStore } from "@/store/useFlowStore";
-import type { ScopeEnv } from "@/utils/types/parser";
-import { evalExpr, extractFuncName } from "@/utils/lib";
+import { evalExpr } from "@/utils/lib";
 import * as H from "./useCallStack.helpers";
 
 export function useCallStack() {
   const {
     callStack,
+    microQueue,
     consoleLog,
     phase,
     activeTaskId,
@@ -18,6 +19,7 @@ export function useCallStack() {
   } = useFlowStore(
     useShallow((s) => ({
       callStack: s.callStack,
+      microQueue: s.microQueue,
       consoleLog: s.consoleLog,
       phase: s.phase,
       activeTaskId: s.activeTaskId,
@@ -27,7 +29,8 @@ export function useCallStack() {
     })),
   );
 
-  const canStep = callStack.length > 0 && (phase === "ready" || phase === "running");
+  const canStep =
+    (callStack.length > 0 || microQueue.length > 0) && (phase === "ready" || phase === "running");
 
   const run = useCallback(
     (code: string) => {
@@ -49,6 +52,8 @@ export function useCallStack() {
         draft.lineIndex = 0;
         draft.scopeChain = [globalScope];
         draft.funcCallStack = [];
+        draft.microQueue = [];
+        draft.macroQueue = [];
         draft.callStack = [{ id: "global-anonymous", task: "global anonymous", type: "stack" }];
         draft.activeTaskId = "global-anonymous";
         draft.phase = "ready";
@@ -67,14 +72,15 @@ export function useCallStack() {
       if (!top) return;
 
       const taskStr = top.task.trim();
-      const funcName = extractFuncName(taskStr);
+      const funcName = H.extractFuncName(taskStr);
 
       if (top.id === "global-anonymous") H.handleGlobalAnonymous(draft);
+      else if ((top as any)._isMicroPlaceholder) H.handleMicroPlaceholder(draft);
       else if ((top as any)._isEndMarker) H.handleEndMarker(draft);
       else if (taskStr.startsWith("console.log")) H.handleConsoleLog(draft, taskStr);
       else if (draft.funcMap[funcName]) H.handleFuncCall(draft, funcName, taskStr);
       else {
-        draft.callStack.pop();
+        H.popTask(draft);
         H.pushNextFuncTask(draft);
       }
 

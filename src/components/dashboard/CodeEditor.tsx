@@ -1,6 +1,6 @@
 import type { FlowPhase } from "@/utils/types/store";
 import { useState, useCallback } from "react";
-import { Button, DashboardCard } from "../common";
+import { Button, Dashboard } from "../common";
 import { javascript } from "@codemirror/lang-javascript";
 import CodeMirror from "@uiw/react-codemirror";
 
@@ -20,7 +20,7 @@ export default function CodeEditor({ initialCode, phase, onRun }: CodeEditorProp
   const isDisabled = phase === "ready" || phase === "running";
 
   return (
-    <DashboardCard title="코드 편집기" isRunning={phase === "running"}>
+    <Dashboard title="코드 편집기" isRunning={phase === "running"}>
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white p-2">
         <CodeMirror
           value={userCode}
@@ -39,6 +39,6 @@ export default function CodeEditor({ initialCode, phase, onRun }: CodeEditorProp
       >
         ⚡ 스크립트 코드 실행
       </Button>
-    </DashboardCard>
+    </Dashboard>
   );
 }

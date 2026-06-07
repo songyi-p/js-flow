@@ -1,17 +1,17 @@
 import Badge from "@/components/common/Badge";
-import DashboardCard from "@/components/common/DashboardCard";
+import Dashboard from "@/components/common/Dashboard";
 
-export default function DashboardCardStory() {
+export default function DashboardStory() {
   return (
     <div className="p-6">
-      <DashboardCard
+      <Dashboard
         title="엔진 콜스택"
         variant="stack"
         headerRight={<Badge name="실행 중" variant="stack" />}
       >
         <div className="min-h-75 rounded-xl bg-gray-50 p-4" />
-      </DashboardCard>
-      <DashboardCard
+      </Dashboard>
+      <Dashboard
         title="브라우저 콘솔 출력 결과 (Console)"
         className="mt-6"
         headerRight={
@@ -21,7 +21,7 @@ export default function DashboardCardStory() {
         }
       >
         <div className="min-h-40" />
-      </DashboardCard>
+      </Dashboard>
     </div>
   );
 }

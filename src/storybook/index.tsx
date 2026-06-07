@@ -2,7 +2,7 @@ import BadgeStory from "./common/BadgeStory";
 import ButtonStory from "./common/ButtonStory";
 import LayoutStory from "./LayoutStory";
 import TaskBoxStory from "./common/TaskBoxStory";
-import DashboardCardStory from "./common/DashboardCardStory";
+import DashboardStory from "./common/DashboardStory";
 
 export default function StoryBook() {
   return (
@@ -17,7 +17,7 @@ export default function StoryBook() {
         <TaskBoxStory />
       </LayoutStory>
       <LayoutStory name="DashboardCard">
-        <DashboardCardStory />
+        <DashboardStory />
       </LayoutStory>
     </>
   );
