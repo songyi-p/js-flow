@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
 
 const taskBoxStyle = cva(
-  "relative flex bg-white border border-gray-200 rounded-xl p-3 transition-all duration-200 select-none shadow-sm text-gray-500 border-l-4",
+  "relative flex shrink-0 bg-white border border-gray-200 rounded-xl p-3 transition-all duration-200 select-none shadow-sm text-gray-500 border-l-4",
   {
     variants: {
       variant: {
